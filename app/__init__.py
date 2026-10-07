@@ -56,13 +56,13 @@ def seed_data():
     db.session.commit()
 
     admin_role = Role.query.filter_by(name="Admin").first()
-    if not User.query.filter_by(email="admin@acxiomcrm.com").first():
+    if not User.query.filter_by(email="svundavi2@gitam.in").first():
         user = User(
             name="System Admin",
-            email="admin@acxiomcrm.com",
+            email="svundavi2@gitam.in",
             role_id=admin_role.id,
             is_active=True
         )
-        user.set_password("Admin@123")
+        user.set_password("abc123")
         db.session.add(user)
         db.session.commit()
