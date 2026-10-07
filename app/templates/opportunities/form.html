@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block heading %}{{'Edit' if opportunity else 'Create'}} Opportunity{% endblock %}
+{% block content %}<div class="card p-4"><form method="post" class="row g-3"><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<div class="col-md-8"><label>Opportunity Name *</label><input required name="opportunity_name" class="form-control" value="{{opportunity.opportunity_name if opportunity else ''}}"></div>
+<div class="col-md-4"><label>Customer</label><select name="customer_id" class="form-select"><option value="">-- Select --</option>{% for c in customers %}<option value="{{c.id}}" {% if opportunity and opportunity.customer_id==c.id %}selected{% endif %}>{{c.customer_name}}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label>Amount *</label><input required type="number" min="0.01" step="0.01" name="amount" class="form-control" value="{{opportunity.amount if opportunity else ''}}"></div>
+<div class="col-md-4"><label>Probability *</label><input required type="number" min="0" max="100" name="probability" class="form-control" value="{{opportunity.probability if opportunity else 10}}"></div>
+<div class="col-md-4"><label>Expected Close Date *</label><input required type="date" name="expected_close_date" class="form-control" min="{{today}}" value="{{opportunity.expected_close_date if opportunity else ''}}"></div>
+<div class="col-md-4"><label>Stage</label><select name="stage" class="form-select">{% for s in stages %}<option {% if opportunity and opportunity.stage==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select></div>
+{% if current_user.role_name!='Sales Executive' %}<div class="col-md-8"><label>Assigned User</label><select name="assigned_to" class="form-select">{% for u in users %}<option value="{{u.id}}" {% if opportunity and opportunity.assigned_to==u.id %}selected{% endif %}>{{u.name}}</option>{% endfor %}</select></div>{% endif %}
+<div class="col-12"><label>Notes</label><textarea name="notes" class="form-control">{{opportunity.notes if opportunity else ''}}</textarea></div>
+<div class="col-12"><button class="btn btn-primary">Save</button> <a href="{{url_for('opportunities.index')}}" class="btn btn-secondary">Cancel</a></div></form></div>
+{% endblock %}

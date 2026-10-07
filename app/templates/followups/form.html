@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block heading %}Schedule Follow-Up{% endblock %}
+{% block content %}<div class="card p-4"><form method="post" class="row g-3"><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<div class="col-md-4"><label>Date *</label><input required type="date" min="{{today}}" name="follow_up_date" class="form-control"></div>
+<div class="col-md-4"><label>Type</label><select name="follow_up_type" class="form-select"><option>Call</option><option>Meeting</option><option>Email</option><option>Task</option></select></div>
+<div class="col-md-4"><label>Customer</label><select name="customer_id" class="form-select"><option value="">-- Select --</option>{% for c in customers %}<option value="{{c.id}}">{{c.customer_name}}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label>Lead</label><select name="lead_id" class="form-select"><option value="">-- Select --</option>{% for l in leads %}<option value="{{l.id}}">{{l.lead_name}}</option>{% endfor %}</select></div>
+{% if current_user.role_name!='Sales Executive' %}<div class="col-md-8"><label>Assigned User</label><select name="assigned_to" class="form-select">{% for u in users %}<option value="{{u.id}}">{{u.name}}</option>{% endfor %}</select></div>{% endif %}
+<div class="col-12"><label>Remarks</label><textarea name="remarks" class="form-control"></textarea></div>
+<div class="col-12"><button class="btn btn-primary">Schedule</button></div></form></div>{% endblock %}

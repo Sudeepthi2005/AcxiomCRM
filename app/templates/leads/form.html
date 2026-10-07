@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block heading %}{{'Edit' if lead else 'Create'}} Lead{% endblock %}
+{% block content %}<div class="card p-4"><form method="post" class="row g-3"><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<div class="col-md-6"><label>Lead Name *</label><input required name="lead_name" class="form-control" value="{{lead.lead_name if lead else ''}}"></div>
+<div class="col-md-6"><label>Email</label><input type="email" name="email" class="form-control" value="{{lead.email if lead else ''}}"></div>
+<div class="col-md-6"><label>Phone</label><input pattern="[6-9][0-9]{9}" maxlength="10" name="phone" class="form-control" value="{{lead.phone if lead else ''}}"></div>
+<div class="col-md-6"><label>Company</label><input name="company_name" class="form-control" value="{{lead.company_name if lead else ''}}"></div>
+<div class="col-md-4"><label>Source</label><input name="source" class="form-control" value="{{lead.source if lead else 'Website'}}"></div>
+<div class="col-md-4"><label>Status</label><select name="status" class="form-select">{% for s in statuses %}<option {% if lead and lead.status==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label>Priority</label><select name="priority" class="form-select">{% for p in ['Low','Medium','High'] %}<option {% if lead and lead.priority==p %}selected{% endif %}>{{p}}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label>Expected Value</label><input type="number" min="0" step="0.01" name="expected_value" class="form-control" value="{{lead.expected_value if lead else 0}}"></div>
+{% if current_user.role_name!='Sales Executive' %}<div class="col-md-8"><label>Assigned User</label><select name="assigned_to" class="form-select">{% for u in users %}<option value="{{u.id}}" {% if lead and lead.assigned_to==u.id %}selected{% endif %}>{{u.name}} ({{u.role_name}})</option>{% endfor %}</select></div>{% endif %}
+<div class="col-12"><button class="btn btn-primary">Save</button> <a href="{{url_for('leads.index')}}" class="btn btn-secondary">Cancel</a></div></form></div>{% endblock %}

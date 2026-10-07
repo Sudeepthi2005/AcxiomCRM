@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block heading %}Audit Log{% endblock %}
+{% block content %}<div class="card p-3"><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Entity</th><th>Record</th><th>IP</th></tr></thead><tbody>{% for l in logs %}<tr><td>{{l.created_date}}</td><td>{{l.user.name if l.user else 'System'}}</td><td>{{l.action}}</td><td>{{l.entity_name}}</td><td>{{l.record_id}}</td><td>{{l.ip_address}}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}

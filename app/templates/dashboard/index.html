@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3">
+{% for label,value in [('Total Customers',customers),('Total Leads',leads),('Opportunities',opportunities),('Open Opportunities',open_opportunities),('Won',won),('Lost',lost),('Pending Follow-Ups',followups)] %}
+<div class="col-md-3"><div class="card p-3"><small class="text-muted">{{label}}</small><h3>{{value}}</h3></div></div>
+{% endfor %}
+<div class="col-md-3"><div class="card p-3"><small class="text-muted">Pipeline Value</small><h3>₹{{"{:,.0f}".format(pipeline)}}</h3></div></div>
+</div>
+<div class="row mt-4 g-3">
+<div class="col-md-6"><div class="card p-3"><h5>Lead Status</h5><canvas id="leadChart"></canvas></div></div>
+<div class="col-md-6"><div class="card p-3"><h5>Opportunity Pipeline</h5><canvas id="oppChart"></canvas></div></div>
+</div>
+<script>
+new Chart(document.getElementById('leadChart'),{type:'doughnut',data:{labels:{{lead_labels|tojson}},datasets:[{data:{{lead_values|tojson}}}]}});
+new Chart(document.getElementById('oppChart'),{type:'bar',data:{labels:{{stage_labels|tojson}},datasets:[{label:'Opportunities',data:{{stage_values|tojson}}}]}});
+</script>
+{% endblock %}

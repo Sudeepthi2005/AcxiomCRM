@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Register - AcxiomCRM{% endblock %}
+{% block auth_content %}
+<div class="container mt-5" style="max-width:430px"><div class="card p-4"><h2>Create Account</h2>
+{% with messages=get_flashed_messages(with_categories=true) %}{% for c,m in messages %}<div class="alert alert-{{c}}">{{m}}</div>{% endfor %}{% endwith %}
+<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input required maxlength="100" name="name" class="form-control mb-3" placeholder="Full name">
+<input required type="email" name="email" class="form-control mb-3" placeholder="Email">
+<input required minlength="8" type="password" name="password" class="form-control mb-3" placeholder="Password (8+ characters)">
+<button class="btn btn-primary w-100">Register</button></form>
+<p class="mt-3"><a href="{{url_for('auth.login')}}">Back to login</a></p>
+</div></div>{% endblock %}
